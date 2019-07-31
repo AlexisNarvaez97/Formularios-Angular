@@ -4,28 +4,23 @@
 
   <div>
 
-    <div class="form-group row" [ngClass]="{ 'has-danger': (nombre.errors?.minlength || nombre.errors?.required) && nombre.touched }">
+    <div class="form-group row"
+      [ngClass]="{ 'has-danger': (nombre.errors?.minlength || nombre.errors?.required) && nombre.touched }">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
-        <input class="form-control"
-               type="text"
-               placeholder="Nombre"
-               name="nombre"
-               [(ngModel)]="usuario.nombre"
-               minlength="3"
-               required
-               #nombre="ngModel">
+        <input class="form-control" type="text" placeholder="Nombre" name="nombre" [(ngModel)]="usuario.nombre"
+          minlength="3" required #nombre="ngModel">
 
-         <div *ngIf="nombre.errors?.required" class="form-control-feedback">
-           Este campo es requerido.
-         </div>
+        <div *ngIf="nombre.errors?.required" class="form-control-feedback">
+          Este campo es requerido.
+        </div>
 
-         <div *ngIf="nombre.errors?.minlength" class="form-control-feedback">
-           Por lo menos {{ nombre.errors.minlength.requiredLength }} caracteres.
-         </div>
-         
-         
+        <div *ngIf="nombre.errors?.minlength" class="form-control-feedback">
+          Por lo menos {{ nombre.errors.minlength.requiredLength }} caracteres.
+        </div>
+
+
       </div>
     </div>
 
@@ -33,13 +28,8 @@
       <label class="col-2 col-form-label">Apellido</label>
       <div class="col-8">
 
-        <input class="form-control"
-               type="text"
-               name="apellido"
-               placeholder="Apellido"
-               [(ngModel)]="usuario.apellido"
-               required
-               #apellido="ngModel">
+        <input class="form-control" type="text" name="apellido" placeholder="Apellido" [(ngModel)]="usuario.apellido"
+          required #apellido="ngModel">
 
         <div *ngIf="apellido.errors?.required">
           Este campo es requerido.
@@ -54,27 +44,73 @@
     <label class="col-2 col-form-label">Correo</label>
     <div class="col-md-8">
 
-      <input class="form-control"
-             type="email"
-             name="correo"
-             placeholder="Correo electrónico"
-             [(ngModel)]="usuario.correo"
-             required
-             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
-             #correo="ngModel">
+      <input class="form-control" type="email" name="correo" placeholder="Correo electrónico"
+        [(ngModel)]="usuario.correo" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #correo="ngModel">
 
-        <div *ngIf="correo.errors?.required">
-          Este campo es requerido.
-        </div>
+      <div *ngIf="correo.errors?.required">
+        Este campo es requerido.
+      </div>
 
-        <div *ngIf="correo.errors?.pattern">
-          Introduzca un correo valido, por favor.
-        </div>      
+      <div *ngIf="correo.errors?.pattern">
+        Introduzca un correo valido, por favor.
+      </div>
 
     </div>
   </div>
 
+  <div class="form-group row">
+    <label class="col-2 col-form-label">Pais</label>
+    <div class="col-8">
+      <select class="form-control" name="pais" [(ngModel)]="usuario.pais">
+        <option value="">Seleccione un pais</option>
+        <option *ngFor="let pais of paises" [value]="pais.codigo"> {{pais.nombre}}
+        </option>
+      </select>
+    </div>
+  </div>
 
+  <div class="form-group row">
+
+    <label class="col-2 col-form-label">Sexo</label>
+
+    <div class="col-8">
+
+      <label class="custom-control custom-radio" *ngFor="let s of sexos">
+        <input [(ngModel)]="usuario.sexo" 
+               name="sexo" 
+               type="radio"
+               [value]="s"
+               class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">{{s}}</span>
+      </label>
+
+      <!-- <label class="custom-control custom-radio">
+          <input [(ngModel)]="usuario.sexo" 
+          name="sexo" 
+          type="radio"
+          value="Mujer"
+          class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Mujer</span>
+      </label> -->
+    </div>
+  </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Acepta</label>
+        <div class="col-8">
+            <label class="custom-control custom-checkbox">
+                <input type="checkbox"
+                       class="custom-control-input"
+                       [(ngModel)]="usuario.acepta"
+                       name="acepta"
+                       required>
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Acepta las condiciones</span>
+              </label>
+        </div>
+    </div>
 
   <div class="form-group row">
     <label class="col-2 col-form-label">&nbsp;</label>
@@ -86,3 +122,9 @@
   </div>
 
 </form>
+
+<pre>
+
+  {{usuario | json}}
+
+</pre>
