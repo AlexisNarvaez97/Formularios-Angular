@@ -1,10 +1,13 @@
 <h4>Formularios <small>template</small></h4>
 <hr>
+
+<!-- Referencia al objeto -->
 <form [formGroup]="forma" (ngSubmit)="guardarCambios()" novalidate="novalidate">
 
-  <div>
+  <div formGroupName="nombreCompleto">
 
-    <div class="form-group row">
+    <!-- [ngClass]="{ 'has-danger': !forma.get('nombre').valid }" -->
+    <div class="form-group row" [ngClass]="{ 'has-danger': !forma.controls['nombreCompleto'].controls['nombre'].valid }">
       <label class="col-2 col-form-label">Nombre</label>
       <div class="col-8">
 
@@ -12,6 +15,14 @@
                type="text"
                placeholder="Nombre"
                formControlName="nombre">
+
+        <div class="form-control-feedback" *ngIf="forma.get('nombreCompleto.nombre').errors?.required">
+          El campo es requerido
+        </div>
+
+        <div class="form-control-feedback" *ngIf="forma.get('nombreCompleto.nombre').errors?.minlength">
+          Minimo 3 caracteres.
+        </div>
       </div>
     </div>
 
