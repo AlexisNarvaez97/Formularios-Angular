@@ -1,0 +1,232 @@
+<!-- Page content -->
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="card shadow">
+
+      <div class="card-header border-0 bg-card-header">
+        <div class="row">
+          <div class="col">
+            <h1 class="text-left">Nueva Receta</h1>
+          </div>
+          <div class="col text-right">
+            <button class="btn btn-danger" routerLink="/recipes">
+              <i class="fa fa-arrow-left"></i>
+              Regresar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body bg-white">
+        <!-- <div class="row text-right">
+          <div class="col">
+            <button class="btn btn-danger" routerLink="/recipes">
+              <i class="fa fa-arrow-left"></i>
+              Regresar
+            </button>
+          </div>
+        </div> -->
+
+        <form (ngSubmit)="guardar(f)" #f="ngForm">
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="nombre_receta">Nombre de la receta</label>
+                  <input type="text" name="nombre" class="form-control" ngModel placeholder="Nombre de la receta..." required pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}" #nombre="ngModel">
+                  <div class="alert alert-danger mt-2" role="alert" *ngIf="f.submitted && nombre.errors?.required">
+                    Este campo es requerido.
+                  </div>
+                  <div class="alert alert-danger mt-2" role="alert" *ngIf="nombre.errors?.pattern">
+                    Este campo no admite numeros y maximo 100 caracteres.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Descripción de la receta</label>
+                  <textarea class="form-control" name="descripcion" rows="2" ngModel placeholder="Alguna pequeña descripción..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col">
+              <form class="form-group">
+                <div class="form-group">
+                  <label>Imagen de la receta</label>
+                  <input type="file" accept=".png, .jpg" (change)="onUpload($event)" class="form-control-file">
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="progress" style="height: 20px;">
+            <div class="progress-bar progress-bar-stripped bg-success" role="progressbar" 
+            [style.width]="(uploadPercent | async ) +'%'">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-lg btn-block" (click)="subir()">Subir</button>
+
+          <div class="row">
+            <div class="col">
+              <form class="form-group">
+                <div class="form-group">
+                  <input type="hidden" [value]="urlImage | async" id="soap">
+                </div>
+              </form>
+            </div>
+          </div>
+  
+          <p class="text-center h1">Información básica</p>
+          <div class="row">
+            <div class="col">
+          <div class="form-group">
+                <div class="form-group">
+                  <label>Tiempo de preparación</label>
+                  <input type="number" name="tiempoP" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Tiempo de cocción</label>
+                  <input type="number" name="tiempoC" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Dificultad</label>
+                  <input type="text" name="dificultad" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <p class="text-center h1">Informacion Nutricional</p>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Calorias(kcal)</label>
+                  <input type="number" name="calorias" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Carbohidratos(g)</label>
+                  <input type="number" name="carbohidratos" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Proteinas(g)</label>
+                  <input type="number" name="proteinas" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Lipidos(g)</label>
+                  <input type="number" name="lipidos" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Fibra dietetica(g)</label>
+                  <input type="number" name="fibra" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Azucares(g)</label>
+                  <input type="number" name="azucares" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <div class="form-group">
+                  <label>Colesterol(mg)</label>
+                  <input type="number" name="colesterol" class="form-control-file" ngModel required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <p class="text-center h1">Ingredientes</p>
+          <div class="row">
+            <div class="col-6">
+              <form class="form-group">
+                <div class="form-group">
+                  <label>Inserte ingrediente:</label>
+                  <input type="text" ngModel name="ingrediente" #ingrediente="ngModel" class="form-control-file" id="ingrediente" required pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}">
+                  <div class="alert alert-danger mt-2" role="alert" *ngIf="ingrediente.errors?.pattern">
+                    Este campo no admite numeros.
+                  </div>
+                  <button [disabled]="ingrediente.invalid" (click)="guardarIngrediente()" type="button" class="btn btn-primary mt-1"> Agregar </button>
+                </div>
+              </form>
+            </div>
+            <div class="col-6">
+              <ul class="list-group" *ngFor="let ing of ingredients">
+                <li class="list-group-item"> {{ing}} </li>
+              </ul>
+            </div>
+          </div>
+  
+  
+          <p class="text-center h1">Pasos para preparación</p>
+          <div class="row">
+            <div class="col-6">
+              <form class="form-group">
+                <div class="form-group">
+                  <label>Inserte pasos:</label>
+                  <input type="text" ngModel name="pasos" #pasos="ngModel" class="form-control-file" id="pasos" required pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{1,100}">
+                  <div class="alert alert-danger mt-2" role="alert" *ngIf="pasos.errors?.pattern">
+                    Este campo no admite numeros.
+                  </div>
+                  <!-- <textarea class="form-control" id="pasos" rows="2" placeholder="..."></textarea> -->
+                  <button [disabled]="pasos.invalid" (click)="guardarPasos()" type="button" class="btn btn-primary mt-1"> Agregar </button>
+                </div>
+              </form>
+            </div>
+            <div class="col-6">
+              <ul class="list-group" *ngFor="let step of steps">
+                <li class="list-group-item"> {{step}} </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group text-center">
+            <button type="submit" 
+                    class="btn btn-primary" [disabled]="f.invalid">
+            <i class="fa fa-save"></i>
+            Guardar         
+            </button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
